@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - snowflakedatalake
+name: Build and deploy Python app to Azure Web App - datalakes
 
 on:
   push:
@@ -67,7 +67,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'snowflakedatalake'
+          app-name: 'datalakes'
           slot-name: 'production'
           # Pass the id-token obtained from secrets
-          id-token: ${{ secrets.TOKEN_ID }}
+          id-token: ${{ secrets.ACCESS_TOKEN }}
