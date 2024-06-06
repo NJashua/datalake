@@ -16,8 +16,12 @@ jobs:
     - name: Azure Login
       run: az login --service-principal -u ${{ secrets.AZUREAPPSERVICE_CLIENTID_9960400555024BFD9434A46E9D258FD7 }} -p ${{ secrets.TOKEN_ID }} --tenant ${{ secrets.AZUREAPPSERVICE_TENANTID_5512436425B24C2FA03D5C058F238A98 }}
       
-    - name: Use Azure CLI
+    - name: Use Azure CLI to get access token
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         az account get-access-token --resource https://graph.microsoft.com
+        
+    - name: Deploy to Azure App Service
+      run: |
+        # Add your deployment commands here, such as deploying your application to Azure App Service
