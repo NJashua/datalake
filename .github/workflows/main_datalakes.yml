@@ -69,5 +69,5 @@ jobs:
         with:
           app-name: 'datalakes'
           slot-name: 'production'
-          # Pass the id-token obtained from secrets
-          id-token: ${{ secrets.ACCESS_TOKEN }}
+          # Pass the access token obtained from secrets
+          access-token: ${{ secrets.ACCESS_TOKEN }}
