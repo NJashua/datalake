@@ -61,9 +61,6 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9960400555024BFD9434A46E9D258FD7 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5512436425B24C2FA03D5C058F238A98 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_446B699BC3A94D8189B77B87CBDC25AD }}
-          auth-type: federated
-          permissions: id-token: write
-
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
