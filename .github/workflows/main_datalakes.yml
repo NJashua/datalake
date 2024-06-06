@@ -59,11 +59,9 @@ jobs:
         uses: azure/CLI@v1
         with:
           azcliversion: latest
-
-      - name: Get Azure access token
-        run: |
-          az account get-access-token --resource https://graph.microsoft.com > token.json
-          export ACCESS_TOKEN=$(jq -r .accessToken token.json)
+          inlineScript: |
+            az account get-access-token --resource https://graph.microsoft.com > token.json
+            export ACCESS_TOKEN=$(jq -r .accessToken token.json)
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
