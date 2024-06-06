@@ -1,4 +1,8 @@
-name: Build and deploy Python app to Azure Web App - datalakes
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+
+name: Build and deploy Python app to Azure Web App - snowflakedatalake
 
 on:
   push:
@@ -22,10 +26,10 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
@@ -43,8 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      permissions:
+        id-token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkwxS2ZLRklfam5YYndXYzIyeFp4dzFzVUhIMCIsImtpZCI6IkwxS2ZLRklfam5YYndXYzIyeFp4dzFzVUhIMCJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yYWMzNmNlZS0wNjE3LTRhYzAtYmViZi1lMWNlNWRmYWI4NmMvIiwiaWF0IjoxNzE3NjY5NDYzLCJuYmYiOjE3MTc2Njk0NjMsImV4cCI6MTcxNzY3NDEzNCwiYWNyIjoiMSIsImFpbyI6IkFVUUF1LzhXQUFBQTUwZlN0QXpwOFcrNEdPcHBFTjBxMmtxcmdaZElCVHVSU0Rva0JpWDBTTWpWbFFDY1crclhpMmpaUnBrcmtjbGlOamtCeTdpZERzeXhwc0pMVTlteHZnPT0iLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiYjY3N2MyOTAtY2Y0Yi00YThlLWE2MGUtOTFiYTY1MGE0YWJlIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJOYWtvdGkiLCJnaXZlbl9uYW1lIjoiSXNod2FyeWEiLCJncm91cHMiOlsiNWQ5YzQ5MDEtNjIxNS00NmRhLTkxYzEtYjgwN2IzNzg1YzljIiwiYmE1NDM0MDUtY2E1MS00OTg4LWFjYTMtM2Y2NjA4NjkyZDliIiwiNGEzYzVmMGQtZDgwNC00MWMxLWE2MTEtZmQ1YWU5ZDZhOGRkIiwiN2ZmNThjMTYtOTllMi00MGRlLTgzMGQtMzMxYzU4NGE4YjBiIiwiZDAzMWExMTgtZjFhYS00ZjZkLWE4YzgtZTliNDcxMzdjNWU3IiwiNTZkZWM4MTgtYjY4ZS00ZGUwLTk4ODAtMmIyNDY5OGU2NDUzIiwiZWM4MjI5MWItYjFlZC00MDI5LTlhZWUtMWVjNzVjNmRhM2QxIiwiMDhmNWQ3MWMtMjU0Ni00NmJkLWI0NGMtMDdlZDViYWU2YTIzIiwiYjMyNGIxMjctNDdjYS00YTBiLWIzNDktZmFiY2YxNjcwZjg3IiwiYWI1ODQ5MmMtZGE3Ni00YjMwLWIyNGItNWYyYzIyZWVlMGYzIiwiZGFlNmQyMmQtZTY1MS00ODBkLWJjNDMtOTY4YTMyMjAxMDg1IiwiZTFmOTM3MmYtZTViYS00NTZiLTg1ZDktMjc3MDcxZjBhNjljIiwiMDhmZTkxMzctYTlhMC00YzkyLTkzNjQtOWZmMTg0ODI0MDAxIiwiYTc0NzgwMzktZmQyYS00NWQ1LWI2OTItYzBkODRkZWI5Njg3IiwiZjYyNzNhNDItNjYwNS00ZGQ5LThmZjQtNWY3ZmU1MTU4YjdmIiwiZGU4MzNkNDMtZmJiYy00YTgzLWFlZTQtNjRkYTZjNzhmZWZlIiwiM2ZiYjkxNDktNTdkNS00ZDIzLTk3YzktYzBkMjZiNDAyNWVhIiwiZmU2ZmE5NGQtMzIxZC00MDZmLTkzNzAtNDRlOWE5Y2Y2NzY1IiwiODMzYmZkNGUtYWQwNC00YzU3LWE5YTAtYTVmOTgyNjAzYzZmIiwiN2U4YmI5NjAtYjk5OC00NGE3LWE4MjMtYjIyZjY4YzU3OWZiIiwiYjQ0NWNmNjItZjIzMi00YjM3LWI2YmMtMjYxMzg0YTFiZGU5IiwiMmJlZjFjNjQtOGIzMS00NmY5LTgxMWMtYTMxOTBhNDBiNDI3IiwiZDYxOTNmNzEtMmIzZC00MjQ5LWE5YzItMWVlY2FiZTI3NTE0IiwiZmMzMDBkNzYtOWQ0Ny00MWVjLWJjOGEtZGNkZTRmNDZiZTU4IiwiYTNmYmJmNzktZmQ0MC00ZDE0LTg2YzgtNDAxNDRkZmFkMjVkIiwiZWI2N2I0N2EtZjVjOS00YmNkLWE1YzAtY2RlOTliZmI5MDdmIiwiNzkzNmNjOTEtNTEwOC00ZjZkLThjMTMtMGQ1YjdiZDg2ZTQ2IiwiMjZkZGU1OTEtYTE2Zi00YzI2LWE3YTYtNjk5NGVlMzkyNTBlIiwiZTI1YWI3OTUtOGZlZS00NGViLWFjOWMtYzZjZWI2YWQ3Yjc5IiwiMjUzY2VlOWMtZTQ5YS00OTg3LWFkYzktYjM2OWRhNTgwMDA0IiwiNzdiNGYwOWMtYTZiYS00ZTRmLTllOGYtYjUzNzJjNDg5ODg4IiwiM2NiM2QyYTQtY2JlMS00NmYwLWEwZTEtYmRmZmI1YTE1NjA3IiwiNjczODk5YTUtM2JmNC00NjE2LWEzNGEtNWNmM2M5YzU4NWM4IiwiZDY1OTFlYWEtMGEwNS00ZDFmLTg5MTgtMTVkM2E1NWU3NGIyIiwiYWM0OGVkYjEtZGQ5OC00ZjA2LWJiNzMtOWE4YjAwZTc4YzJkIiwiMjY1NTI2YjMtN2Y5MS00OTNmLTlkZDYtMmZjNTk5ODc4YjNkIiwiNDExNTI4YjctNGM5Ni00OGQ5LTg1OTQtMDMzYzA3OGEyY2E4IiwiZTQxZDBjYmUtMTNmZi00MTJiLWE3ZGItYWQyYzc4N2I0Y2RiIiwiOTRmYjE2YzUtMmNjNC00YWEwLWJiNGMtZDhkZDA1YmFkMzFmIiwiOGEyYTFjYzYtODgzMi00OWRlLWJmODYtN2QwM2M1NTQyNzY3IiwiMzlmMTE4ZDMtYmI3Ni00YjMzLWI5YjgtOWUwZDE4ZjRlODE4IiwiZWM2OTI3ZTAtZTVmZC00MGVkLWJiNjUtNGY2ODk2YzdlYzYyIiwiZWQ0NGU3ZTktYzI1OS00ZGJiLThlM2EtZmY1ZWY2MTJlZWYwIl0sImlkdHlwIjoidXNlciIsImlwYWRkciI6IjEyNS4yMy4zMy41MiIsIm5hbWUiOiJJc2h3YXJ5YSBOYWtvdGkgKENXKSIsIm9pZCI6ImY0MmE4MmE4LTc4YjctNDU4Mi04NDhiLTA5M2U3YzhkOWEyMiIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS04OTE1Mzg3LTc3NjM0NDkwOC0xODc0MDc4NzQxLTI1NTA4NzgiLCJwdWlkIjoiMTAwMzIwMDM2OEMzOEJEQiIsInJoIjoiMC5BUndBN216REtoY0d3RXEtdi1IT1hmcTRiRVpJZjNrQXV0ZFB1a1Bhd2ZqMk1CTWNBRDguIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwic3ViIjoiRzVJb2NQckN4V0E4LTlfSm92Y2xEVnYtbEtfcVNIa1k1RHloSHZvSGRpZyIsInRpZCI6IjJhYzM2Y2VlLTA2MTctNGFjMC1iZWJmLWUxY2U1ZGZhYjg2YyIsInVuaXF1ZV9uYW1lIjoiSXNod2FyeWEuTmFrb3RpQGpkYS5jb20iLCJ1cG4iOiJJc2h3YXJ5YS5OYWtvdGlAamRhLmNvbSIsInV0aSI6Im5WOEQ5V3JEaEUyZ3FEUnc0Skl6QUEiLCJ2ZXIiOiIxLjAiLCJ3aWRzIjpbImI3OWZiZjRkLTNlZjktNDY4OS04MTQzLTc2YjE5NGU4NTUwOSJdLCJ4bXNfdGNkdCI6MTM4MjcyMDU1M30.SYzWGkUTDr0-q45yquecysEH_hvYzzqcuOGQZEmTkCILtvEt1US-terqRKUepfhLtMdwwTCKxEx8KJZgIFudzyxBYpZZcbJ3MKixAQ4WYIq_JDxwA4jPa3P7aCBa0TVqepashFD_0uDA7Q9frgCtPP-kLaXjun4thdqmemAT4jh7-ICgVBEjngrJOcVCBQCAl7pO6dUKUupVXLbhBTrUFRU9VjX2Ldy6zKPFXtsGJir9Q3QB-fsWHXQzHGUo8kNfFlJeJEJPjGA_WS4uDhOlHJd04q7wITu7uMkQaB-SXioShwEIwmE7rVIbaWP81ZbOidqko_u63ovoqHeoC6JbVQ"
 
     steps:
       - name: Download artifact from build job
@@ -58,11 +64,13 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: '{"appId": "${{ secrets.AZUREAPPSERVICE_CLIENTID_9960400555024BFD9434A46E9D258FD7 }}", "password": "${{ secrets.AZUREAPPSERVICE_CLIENTSECRET_45minutesago }}", "tenant": "${{ secrets.AZUREAPPSERVICE_TENANTID_5512436425B24C2FA03D5C058F238A98 }}"}'
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9960400555024BFD9434A46E9D258FD7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5512436425B24C2FA03D5C058F238A98 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_446B699BC3A94D8189B77B87CBDC25AD }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'datalakes'
-          slot-name: 'Production'
+          app-name: 'snowflakedatalake'
+          slot-name: 'production'
